@@ -2,7 +2,7 @@
 
 namespace PanPizza
 {
-    internal class ShortMessage
+    public class ShortMessage
 	{          
         #region Private Variables
         private string index;
