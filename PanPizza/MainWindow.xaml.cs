@@ -14,6 +14,15 @@ namespace PanPizza
             InitializeComponent();
             DataContext = new MainWindowViewModel(this);
         }
-    
+
+        private void btnRemove_Click(object sender, RoutedEventArgs e)
+        {
+            ToppingsGrid.Items.Refresh();
+        }
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            ToppingsGrid.Items.Refresh();
+        }
     }
 }

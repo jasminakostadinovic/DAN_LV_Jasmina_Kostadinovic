@@ -32,13 +32,20 @@ namespace PanPizza.ViewModel
 
         private List<Topping> LoadToppings()
         {
-            var toppings = Enum.GetNames(typeof(Toppings));
-            var toppingsList = new List<Topping>();
-            for (int i = 0; i < toppings.Length; i++)
+            try
             {
-                toppingsList.Add(new Model.Topping() { Name = toppings[i] });
+                var toppings = Enum.GetNames(typeof(Toppings));
+                var toppingsList = new List<Topping>();
+                for (int i = 0; i < toppings.Length; i++)
+                {
+                    toppingsList.Add(new Model.Topping() { Name = toppings[i] });
+                }
+                return toppingsList;
             }
-            return toppingsList;
+            catch (Exception)
+            {
+                return new List<Topping>();
+            }
         }
         #endregion
 
@@ -118,7 +125,7 @@ namespace PanPizza.ViewModel
         #endregion
 
         #region Commands
-        //increasing the number of meals
+        //add topping
         private ICommand addOneItem;
         public ICommand AddOneItem
         {
@@ -134,11 +141,18 @@ namespace PanPizza.ViewModel
 
         private bool CanAddOneItem()
         {
-            if (SelectedTopping == null
+            try
+            {
+                if (SelectedTopping == null
                 || string.IsNullOrWhiteSpace(SelectedTopping.Name)
                 || toppingsToAdd.Contains(ParseEnum<Toppings>(SelectedTopping.Name)))
+                    return false;
+                return true;
+            }
+            catch (Exception)
+            {
                 return false;
-            return true;
+            }
         }
 
         private void AddOneItemExecute()
@@ -148,6 +162,8 @@ namespace PanPizza.ViewModel
                 if (SelectedTopping != null)
                 {
                     toppingsToAdd.Add(ParseEnum<Toppings>(SelectedTopping.Name));
+                    var addedTopping = ToppingsArr.FirstOrDefault(x => x.Name == selectedTopping.Name);
+                    ToppingsArr = UpdateToppings(addedTopping, true);
                 }
                 else
                 {
@@ -159,8 +175,16 @@ namespace PanPizza.ViewModel
                 MessageBox.Show(ex.ToString());
             }
         }
+        private List<Topping> UpdateToppings(Topping addedTopping, bool v)
+        {
+            if (ToppingsArr.Contains(addedTopping))
+            {
+                ToppingsArr.First(x => x.Name == addedTopping.Name).IsAdded = v;
+            }
+            return ToppingsArr;
+        }
 
-        //reduce the number of meals
+        //remove topping
 
         private ICommand removeOneItem;
         public ICommand RemoveOneItem
@@ -177,12 +201,19 @@ namespace PanPizza.ViewModel
 
         private bool CanRemoveOneItem()
         {
-            if (SelectedTopping == null
-                || string.IsNullOrWhiteSpace(SelectedTopping.Name)
-                || !toppingsToAdd.Contains(ParseEnum<Toppings>(SelectedTopping.Name))
-                || isOrdered == true)
+            try
+            {
+                if (SelectedTopping == null
+                  || string.IsNullOrWhiteSpace(SelectedTopping.Name)
+                  || !toppingsToAdd.Contains(ParseEnum<Toppings>(SelectedTopping.Name))
+                  || isOrdered == true)
+                    return false;
+                return true;
+            }
+            catch (Exception)
+            {
                 return false;
-            return true;
+            }
         }
 
         private void RemoveOneItemExecute()
@@ -192,6 +223,8 @@ namespace PanPizza.ViewModel
                 if (SelectedTopping != null)
                 {
                     toppingsToAdd.Remove(ParseEnum<Toppings>(SelectedTopping.Name));
+                    var removedTopping = ToppingsArr.FirstOrDefault(x => x.Name == selectedTopping.Name);
+                    ToppingsArr = UpdateToppings(removedTopping, false);
                 }
             }
             catch (Exception ex)
@@ -209,7 +242,7 @@ namespace PanPizza.ViewModel
             {
                 if (submitOrder == null)
                 {
-                    submitOrder = new RelayCommand(param => SubmitOrderExecute(), param => CanSubmitOrderEmployee());
+                    submitOrder = new RelayCommand(param => SubmitOrderExecute(), param => CanSubmitOrder());
                 }
                 return submitOrder;
             }
@@ -231,7 +264,53 @@ namespace PanPizza.ViewModel
             }
         }
 
-        private bool CanSubmitOrderEmployee()
+        private bool CanSubmitOrder()
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(Size)
+               || isOrdered == true)
+                    return false;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        //Send SMS
+
+        private ICommand sendSMS;
+        public ICommand SendSMS
+        {
+            get
+            {
+                if (sendSMS == null)
+                {
+                    sendSMS = new RelayCommand(param => SendSMSExecute(), param => CanSendSMS());
+                }
+                return submitOrder;
+            }
+        }
+
+        private void SendSMSExecute()
+        {
+            try
+            {
+                var newPizza = new PizzaPan(ParseEnum<Sizes>(Size), toppingsToAdd);
+                MessageBox.Show("Your order is successfully created!");
+                TotalAmount = newPizza.GetPrice();
+                isOrdered = true;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private bool CanSendSMS()
         {
             if (string.IsNullOrWhiteSpace(Size)
                 || isOrdered == true)
