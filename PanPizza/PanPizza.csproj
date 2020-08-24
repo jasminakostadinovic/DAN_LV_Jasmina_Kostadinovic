@@ -56,6 +56,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Command\RelayCommand.cs" />
+    <Compile Include="Model\Topping.cs" />
+    <Compile Include="Model\Toppings.cs" />
+    <Compile Include="Model\IPizza.cs" />
+    <Compile Include="Model\PizzaPan.cs" />
+    <Compile Include="Model\Sizes.cs" />
+    <Compile Include="ViewModel\EnumBooleanConverter.cs" />
+    <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -97,7 +104,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Model\" />
     <Folder Include="View\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

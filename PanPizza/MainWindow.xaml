@@ -3,10 +3,63 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PanPizza"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+    Title="Welcome!" Background="#2e3137" Height="500" Width="850" WindowStartupLocation="CenterScreen">
+
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="auto"/>    
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+        <Label  Foreground="White" Content="Choose size:" Grid.Column="1"  Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <ComboBox Grid.Column="1" Grid.Row="3" Margin="-400,0,0,0" Name="cmbSize" Height="20" Width="150" 
+                 IsEditable="True" ItemsSource="{Binding Sizes, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding Size, UpdateSourceTrigger=PropertyChanged}" />
+        <Label  Foreground="White" Content="Choose Toppings:" Grid.Column="1"  Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <DataGrid Grid.Column="1" Grid.Row="7" Name="EmployeesGrid" AutoGenerateColumns="True" HorizontalAlignment="Center" 
+                  IsReadOnly="True" Height="300" VerticalAlignment="Top" 
+                  Width="790" ItemsSource="{Binding ToppingsArr, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedTopping}" SelectionMode="Single">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn  Width="auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="btnAdd" Content="Add"  HorizontalAlignment="Right"
+                            Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}},
+                                              Path=DataContext.AddOneItem}"
+                            CommandParameter="{Binding}"/>
+                                <Button Name="btnRemove" Content="Remove"  HorizontalAlignment="Left"
+                            Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}},
+                                              Path=DataContext.RemoveOneItem}"
+                            CommandParameter="{Binding}"/>
+                                
+                            </StackPanel>
+
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Button Grid.Column="1" Grid.Row="1" Content="Submit order" Name="btnSubmitOrder" HorizontalAlignment="Right" 
+                VerticalAlignment="Top" Width="auto"  
+                Command="{Binding SubmitOrder, UpdateSourceTrigger=PropertyChanged}"
+                Background="#545d6a" Foreground="White"/>
+        <Label  Foreground="White" Content="{Binding TotalAmount, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" HorizontalAlignment="Left" Margin="634,18,0,0" VerticalAlignment="Top" Grid.RowSpan="2"/>
+        <Label  Foreground="White" Content="Total amount:" Grid.Column="1" HorizontalAlignment="Left" Margin="505,18,0,0" Grid.RowSpan="3" VerticalAlignment="Top"/>
+      
     </Grid>
 </Window>
