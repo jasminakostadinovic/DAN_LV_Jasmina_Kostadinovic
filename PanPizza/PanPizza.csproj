@@ -55,12 +55,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="clsSMS.cs" />
     <Compile Include="Command\RelayCommand.cs" />
+    <Compile Include="Model\SMSCOMMS.cs" />
     <Compile Include="Model\Topping.cs" />
     <Compile Include="Model\Toppings.cs" />
     <Compile Include="Model\IPizza.cs" />
     <Compile Include="Model\PizzaPan.cs" />
     <Compile Include="Model\Sizes.cs" />
+    <Compile Include="ShortMessage.cs" />
+    <Compile Include="ShortMessageCollection.cs" />
     <Compile Include="ViewModel\EnumBooleanConverter.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />

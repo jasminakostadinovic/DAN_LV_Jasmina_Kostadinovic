@@ -1,6 +1,5 @@
 ﻿using PanPizza.ViewModel;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace PanPizza
 {
@@ -8,7 +7,7 @@ namespace PanPizza
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
-    {
+    {       
         public MainWindow()
         {
             InitializeComponent();
@@ -23,6 +22,6 @@ namespace PanPizza
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             ToppingsGrid.Items.Refresh();
-        }
+        }    
     }
 }

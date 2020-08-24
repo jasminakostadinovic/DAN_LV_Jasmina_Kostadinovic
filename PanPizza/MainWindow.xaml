@@ -64,6 +64,12 @@
         <Button Grid.Column="1" Grid.Row="3" Content="Send SMS" Name="btnSendSMS" HorizontalAlignment="Right" 
                 VerticalAlignment="Top" Width="100"  
                 Command="{Binding SendSMS, UpdateSourceTrigger=PropertyChanged}"
-                Background="#545d6a" Foreground="White" />
+                Background="#545d6a" Foreground="White" Click="btnSendSMS_Click"/>
+
+        <TextBox Grid.Column="1" Grid.Row="3" Name="txtPhone" Margin="350,0,0,0" Height="20" Width="200"
+                 TextWrapping="Wrap" 
+                 Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label  Foreground="White" Content="Phone:" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" Margin="420,0,0,0" VerticalAlignment="Top"/>
+
     </Grid>
 </Window>
